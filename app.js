@@ -27,7 +27,6 @@ const userApi = require('./controller/userController')
 app.use(userApi.routes()).use(router.allowedMethods())
 
 
-app.use(router.routes()).use(router.allowedMethods())
 app.listen(3000, () => {
   console.log('service running at http://localhost:3000/')
 })
