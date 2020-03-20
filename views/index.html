@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>index</title>
+  <link rel="stylesheet" href="/assets/css/base.css">
+</head>
+
+<body>
+  <div id="root" v-cloak>
+    <div style="display: flex;align-items: center;">
+      <img src="/assets/img/avatar.jpeg" style="width: 80px;border-radius: 5px;margin-right: 10px;">
+      <h3>用户列表</h3>
+    </div>
+
+    <ul>
+      <li><a href="/user/add">添加用户</a></li>
+    </ul>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>password</th>
+        <th>operate</th>
+      </tr>
+      <tr v-for="(item,index) in userList" :key="index">
+        <td>{{item._id}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.password}}</td>
+        <td>
+          <input type="button" value="删除" @click="deleteUser(item._id)" style="background-color: red;color:white;">
+          <input type="button" value="编辑" @click="editUser(item._id)"
+            style="background-color: cornflowerblue;color:white;">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <script src="/assets/js/vue.min.js"></script>
+  <script src="/assets/js/axios.min.js"></script>
+  <script src="/assets/js/util.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data: {
+        userList: []
+      },
+      mounted() {
+        this.getUserList()
+      },
+      methods: {
+        // 获取用户列表
+        getUserList() {
+          axios.get('/userList').then(res => {
+            this.userList = res
+          })
+        },
+        // 删除用户
+        deleteUser(_id) {
+          axios.delete(`/removeUser/${_id}`).then(res => {
+            this.getUserList()
+            alert('删除成功')
+          })
+        },
+        // 编辑用户
+        editUser(_id) {
+          location.href = `/user/edit/${_id}`
+        }
+      }
+    })
+
+  </script>
+
+</body>
+
+</html>

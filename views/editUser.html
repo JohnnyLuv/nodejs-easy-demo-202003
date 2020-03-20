@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>add new user</title>
+  <link rel="stylesheet" href="/assets/css/base.css">
+</head>
+
+<body>
+  <div id="root" v-cloak>
+    <h3>修改用户</h3>
+    <ul>
+      <li><a href="/">用户列表</a></li>
+    </ul>
+    <div style="display: flex;">
+      <span style="width: 80px;">username</span>
+      <input type="text" v-model="username">
+    </div>
+    <div style="display: flex;margin-top: 20px;">
+      <span style="width: 80px;">password</span>
+      <input type="text" v-model="password">
+    </div>
+    <div style="margin-top: 20px;">
+      <button @click="onSubmit">submit</button>
+    </div>
+  </div>
+
+  <script src="/assets/js/vue.min.js"></script>
+  <script src="/assets/js/axios.min.js"></script>
+  <script src="/assets/js/util.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data: {
+        username: '',
+        password: '',
+      },
+      computed: {
+        _id() { return location.pathname.split('/')[3] }
+      },
+      mounted() {
+        // 通过 userid 获取 userinfo
+        axios.get(`/userInfo/${this._id}`).then(res => {
+          this.username = res.username
+          this.password = res.password
+        })
+      },
+      methods: {
+        // 提交编辑
+        onSubmit() {
+          const params = {
+            _id: this._id,
+            username: this.username,
+            password: this.password,
+          }
+          axios.post('/editUser', params).then(() => {
+            alert('修改成功')
+            location.href = '/'
+          })
+        }
+      }
+    })
+
+  </script>
+
+</body>
+
+</html>

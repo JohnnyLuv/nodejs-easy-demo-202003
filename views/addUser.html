@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>add new user</title>
+  <link rel="stylesheet" href="/assets/css/base.css">
+</head>
+
+<body>
+  <div id="root" v-cloak>
+    <h3>添加新用户</h3>
+    <ul>
+      <li><a href="/">用户列表</a></li>
+    </ul>
+    <div style="display: flex;">
+      <span style="width: 80px;">username</span>
+      <input type="text" v-model="username">
+    </div>
+    <div style="display: flex;margin-top: 20px;">
+      <span style="width: 80px;">password</span>
+      <input type="text" v-model="password">
+    </div>
+    <div style="margin-top: 20px;">
+      <button @click="onSubmit">submit</button>
+    </div>
+  </div>
+
+  <script src="/assets/js/vue.min.js"></script>
+  <script src="/assets/js/axios.min.js"></script>
+  <script src="/assets/js/util.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data: {
+        username: '',
+        password: '',
+      },
+      methods: {
+        onSubmit() {
+          const params = {
+            username: this.username,
+            password: this.password,
+          }
+          axios.post('/addUser', params).then(() => {
+            alert('添加成功')
+            location.href = '/'
+          })
+        }
+      }
+    })
+
+  </script>
+
+</body>
+
+</html>
