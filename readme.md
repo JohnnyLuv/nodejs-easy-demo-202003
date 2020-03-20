@@ -26,7 +26,7 @@ src                      // 根目录
 │
 ├─ package.json          // yarn/npm 配置文件
 │
-└─ router.js            // 客户端视图路由
+└─ router.js             // 客户端视图路由
 ```
 
 
@@ -46,6 +46,10 @@ $ sudo mongod --dbpath=/Users/[yourusername]/mongodb/data/db
 
 ### mongodb 配置使用
 > [http://blog.starpoetry.cn/](http://blog.starpoetry.cn/2020/03/13/mongodb-in-macos10/)
+
+
+### koa2 文档
+> [https://koa.bootcss.com](https://koa.bootcss.com)
 
 
 ### koa-router 服务端路由文档
