@@ -53,13 +53,13 @@
       methods: {
         // 获取用户列表
         getUserList() {
-          axios.get('/userList').then(res => {
+          axios.get('/api/userList').then(res => {
             this.userList = res
           })
         },
         // 删除用户
         deleteUser(_id) {
-          axios.delete(`/removeUser/${_id}`).then(res => {
+          axios.delete(`/api/removeUser/${_id}`).then(res => {
             this.getUserList()
             alert('删除成功')
           })

@@ -42,8 +42,9 @@
             password: this.password,
           }
           console.log(params)
-          axios.post('/login', params).then(res => {
+          axios.post('/api/login', params).then(res => {
             alert('登录成功', res.username)
+            localStorage.setItem('token', res.token)
             location.href = '/'
           })
         }

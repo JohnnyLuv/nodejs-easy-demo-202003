@@ -1,4 +1,5 @@
 const DB = require('./db')
+const jwt = require('jsonwebtoken')
 
 
 /**
@@ -12,30 +13,29 @@ const login = async ctx => {
   let response = {}
   switch (true) {
     case !query.username:
-      response = {
-        status: 201,
-        msg: 'username 必填',
-      }
+      response = { status: 201, msg: 'username 必填' }
       break
     case !query.password:
-      response = {
-        status: 201,
-        msg: 'password 必填',
-      }
+      response = { status: 201, msg: 'password 必填' }
       break
     default:
       const data = await DB.find('user', { username: query.username })
       if (query.username === data[0].username && query.password === data[0].password) {
+        const token = jwt.sign(
+          {
+            _id: data[0]._id,
+            username: data[0].username,
+          },
+          'johnny_jwt_secret',
+          { expiresIn: '1h' }
+        )
         response = {
           status: 200,
-          data: data[0],
+          data: { ...data[0], token: `Bearer ${token}` },
           msg: '登录成功',
         }
       } else {
-        response = {
-          status: 201,
-          msg: '账号或密码错误',
-        }
+        response = { status: 201, msg: '账号或密码错误' }
       }
       break
   }
@@ -83,16 +83,10 @@ const addUser = async ctx => {
   let response = {}
   switch (true) {
     case query.username === '':
-      response = {
-        status: 201,
-        msg: 'username 必填',
-      }
+      response = { status: 201, msg: 'username 必填' }
       break
     case query.password === '':
-      response = {
-        status: 201,
-        msg: 'password 必填',
-      }
+      response = { status: 201, msg: 'password 必填' }
       break
     default:
       const data = await DB.insert('user', query)

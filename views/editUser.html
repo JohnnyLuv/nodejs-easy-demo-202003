@@ -42,7 +42,7 @@
       },
       mounted() {
         // 通过 userid 获取 userinfo
-        axios.get(`/userInfo/${this._id}`).then(res => {
+        axios.get(`/api/userInfo/${this._id}`).then(res => {
           this.username = res.username
           this.password = res.password
         })
@@ -55,7 +55,7 @@
             username: this.username,
             password: this.password,
           }
-          axios.post('/editUser', params).then(() => {
+          axios.post('/api/editUser', params).then(() => {
             alert('修改成功')
             location.href = '/'
           })

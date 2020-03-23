@@ -1,6 +1,8 @@
 const Router = require('koa-router'),
   router = new Router()
 
+router.prefix('/api')
+
 const userModule = require('../module/userModule')
 
 // 用户登录

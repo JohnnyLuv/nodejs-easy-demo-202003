@@ -43,7 +43,7 @@
             username: this.username,
             password: this.password,
           }
-          axios.post('/addUser', params).then(() => {
+          axios.post('/api/addUser', params).then(() => {
             alert('添加成功')
             location.href = '/'
           })

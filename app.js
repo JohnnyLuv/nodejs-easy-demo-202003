@@ -17,6 +17,23 @@ const static = require('koa-static')
 app.use(static(__dirname))
 
 
+// jwt鉴权
+app.use((ctx, next) => {
+  return next().catch(err => {
+    if (err.status === 401) {
+      ctx.status = 200
+      ctx.body = {
+        status: 401,
+        msg: '登录失效'
+      }
+    } else {
+      return next()
+    }
+  })
+})
+const jwt = require('koa-jwt')
+app.use(jwt({ secret: 'johnny_jwt_secret' }).unless({ path: [ '/', '/login', /^\/user\//, '/api/login'] }))
+
 
 // 页面路由注册
 const viewRouter = require('./router')
