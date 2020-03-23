@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户登录</title>
+  <link rel="stylesheet" href="/assets/css/base.css">
+</head>
+
+<body>
+  <div id="root" v-cloak>
+    <h3>用户登录</h3>
+
+    <div style="display: flex;">
+      <span style="width: 80px;">username</span>
+      <input type="text" v-model="username">
+    </div>
+    <div style="display: flex;margin-top: 20px;">
+      <span style="width: 80px;">password</span>
+      <input type="text" v-model="password">
+    </div>
+    <div style="margin-top: 20px;">
+      <button @click="onSubmit">submit</button>
+    </div>
+  </div>
+
+  <script src="/assets/js/vue.min.js"></script>
+  <script src="/assets/js/axios.min.js"></script>
+  <script src="/assets/js/util.js"></script>
+  <script>
+    new Vue({
+      el: "#root",
+      data: {
+        username: "",
+        password: "",
+      },
+      methods: {
+        onSubmit() {
+          const params = {
+            username: this.username,
+            password: this.password,
+          }
+          console.log(params)
+          axios.post('/login', params).then(res => {
+            alert('登录成功', res.username)
+            location.href = '/'
+          })
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

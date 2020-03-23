@@ -5,14 +5,41 @@ const DB = require('./db')
  * 用户登录
  * @param {Object} ctx 
  */
-const login = ctx => {
+const login = async ctx => {
   const query = ctx.request.body
-  console.log(query)
-  return {
-    status: 200,
-    data: {},
-    msg: 'login ok',
+  // console.log(query)
+
+  let response = {}
+  switch (true) {
+    case !query.username:
+      response = {
+        status: 201,
+        msg: 'username 必填',
+      }
+      break
+    case !query.password:
+      response = {
+        status: 201,
+        msg: 'password 必填',
+      }
+      break
+    default:
+      const data = await DB.find('user', { username: query.username })
+      if (query.username === data[0].username && query.password === data[0].password) {
+        response = {
+          status: 200,
+          data: data[0],
+          msg: '登录成功',
+        }
+      } else {
+        response = {
+          status: 201,
+          msg: '账号或密码错误',
+        }
+      }
+      break
   }
+  return response
 }
 
 /**
@@ -37,10 +64,10 @@ const userList = async ctx => {
 const userInfo = async ctx => {
   const _id = ctx.params._id
   console.log(_id)
-  const result = await DB.find('user', { _id: DB.ObjectId(_id) })
+  const data = await DB.find('user', { _id: DB.ObjectId(_id) })
   const response = {
     status: 200,
-    data: result[0],
+    data: data[0],
     msg: 'success',
   }
   return response
